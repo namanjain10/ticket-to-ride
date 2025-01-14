@@ -5,9 +5,6 @@ import java.util.Stack;
 
 public class Board {
 
-    private List<Player> players;
-    private Stack<Card> cardsDeck;
-    private Stack<Card> returnedCards;
     private CityConnection cityConnection;
 
     private Board() {
