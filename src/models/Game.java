@@ -2,30 +2,23 @@ package models;
 
 import java.util.List;
 import java.util.Stack;
-import java.util.UUID;
 
 public class Game {
     private String id;
-    private List<Player> players;
     private Stack<Card> cardsDeck;
     private Stack<Card> returnedCards;
     private List<Card> openCards;
-    private Board board;
+    private Player nextChance;
+    private boolean isGameComplete = false;
 
-    public Game(String id, List<Player> players, Stack<Card> cardsDeck, Stack<Card> returnedCards, Board board) {
+    public Game(String id, Stack<Card> cardsDeck, Stack<Card> returnedCards) {
         this.id = id;
-        this.players = players;
         this.cardsDeck = cardsDeck;
         this.returnedCards = returnedCards;
-        this.board = board;
     }
 
     public String getId() {
         return id;
-    }
-
-    public List<Player> getPlayers() {
-        return players;
     }
 
     public Stack<Card> getCardsDeck() {
@@ -40,8 +33,21 @@ public class Game {
         return openCards;
     }
 
-    public Board getBoard() {
-        return board;
+    public Player getNextChance() {
+        return nextChance;
     }
+
+    public void setNextChance(Player nextChance) {
+        this.nextChance = nextChance;
+    }
+
+    public boolean isGameComplete() {
+        return isGameComplete;
+    }
+
+    public void setGameComplete(boolean gameComplete) {
+        isGameComplete = gameComplete;
+    }
+
 // TODO: add builder here
 }

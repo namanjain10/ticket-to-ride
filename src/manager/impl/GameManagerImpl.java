@@ -3,6 +3,7 @@ package manager.impl;
 import manager.BoardManager;
 import manager.GameManager;
 import manager.PlayerManager;
+import models.Board;
 import models.Card;
 import models.Game;
 import models.Player;
@@ -31,7 +32,8 @@ public class GameManagerImpl implements GameManager {
         String gameId = UUID.randomUUID().toString();
         List<Player> playerList = playerManager.initPlayers(gameId, numPlayer);
         Stack<Card> cardsDeck = CardsUtil.createCardsDeck(numCards);
-        Game game = new Game(gameId, playerList, cardsDeck, new Stack<>(), boardManager.createBoard(gameId));
+        Board board = boardManager.createBoard(gameId);
+        Game game = new Game(gameId, cardsDeck, new Stack<>());
         gameRepository.save(game);
         return game;
     }
@@ -44,5 +46,12 @@ public class GameManagerImpl implements GameManager {
     @Override
     public void registerPlayerAction(Game game, PlayerAction playerAction) {
 
+    }
+
+    @Override
+    public void checkIfGameCompleted(String gameId) {
+        Game game = getGame(gameId);
+        game.setGameComplete(true);
+        gameRepository.update(gameId, game);
     }
 }

@@ -39,6 +39,7 @@ public class BoardManagerImpl implements BoardManager {
         return boardRepository.get(boardId);
     }
 
+    @Override
     public Board getBoardForGame(String gameId) {
         return boardRepository.getBoardForGame(gameId);
     }
