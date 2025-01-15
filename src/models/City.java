@@ -3,5 +3,11 @@ package models;
 public enum City {
     PARIS,
     LONDON,
-    LISBON;
+    LISBON,
+    WIEN,
+    ZURICH,
+    WERSAW,
+    EDINBURGH,
+    MOSCOW,
+    AMSTERDAM;
 }

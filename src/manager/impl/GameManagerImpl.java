@@ -7,21 +7,38 @@ import models.Card;
 import models.Game;
 import models.Player;
 import models.action.PlayerAction;
+import repositories.GameRepository;
 import utils.CardsUtil;
 
 import java.util.List;
 import java.util.Stack;
+import java.util.UUID;
 
 public class GameManagerImpl implements GameManager {
 
-    private BoardManager boardManager;
-    private PlayerManager playerManager;
+    private final BoardManager boardManager;
+    private final PlayerManager playerManager;
+    private final GameRepository gameRepository;
+
+    public GameManagerImpl(BoardManager boardManager, PlayerManager playerManager, GameRepository gameRepository) {
+        this.boardManager = boardManager;
+        this.playerManager = playerManager;
+        this.gameRepository = gameRepository;
+    }
 
     @Override
     public Game create(int numPlayer, int numCards) {
-        List<Player> playerList = playerManager.initPlayers(numPlayer);
+        String gameId = UUID.randomUUID().toString();
+        List<Player> playerList = playerManager.initPlayers(gameId, numPlayer);
         Stack<Card> cardsDeck = CardsUtil.createCardsDeck(numCards);
-        return new Game(playerList, cardsDeck, new Stack<>(), boardManager.createBoard());
+        Game game = new Game(gameId, playerList, cardsDeck, new Stack<>(), boardManager.createBoard(gameId));
+        gameRepository.save(game);
+        return game;
+    }
+
+    @Override
+    public Game getGame(String gameId) {
+        return gameRepository.get(gameId);
     }
 
     @Override

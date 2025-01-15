@@ -6,7 +6,7 @@ import models.Player;
 
 public interface BoardManager {
 
-    Board createBoard();
+    Board createBoard(String gameId);
     void addTrainCarConnection(Board board, City source, City destination, Player player);
     boolean checkIfRouteIsComplete(Board board, City source, City destination);
 }

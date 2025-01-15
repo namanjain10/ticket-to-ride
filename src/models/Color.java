@@ -3,5 +3,8 @@ package models;
 public enum Color {
     BLUE,
     GREEN,
-    WHITE;
+    WHITE,
+    YELLOW,
+    PURPLE,
+    ORANGE;
 }

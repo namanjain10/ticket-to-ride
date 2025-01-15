@@ -12,8 +12,8 @@ public class Game {
     private List<Card> openCards;
     private Board board;
 
-    public Game(List<Player> players, Stack<Card> cardsDeck, Stack<Card> returnedCards, Board board) {
-        this.id = UUID.randomUUID().toString();
+    public Game(String id, List<Player> players, Stack<Card> cardsDeck, Stack<Card> returnedCards, Board board) {
+        this.id = id;
         this.players = players;
         this.cardsDeck = cardsDeck;
         this.returnedCards = returnedCards;
