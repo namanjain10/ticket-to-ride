@@ -7,6 +7,7 @@ public interface GameManager {
 
     Game create(int numPlayer, int numCards);
     Game getGame(String gameId);
-    void registerPlayerAction(Game game, PlayerAction playerAction);
+    boolean validatePlayerAction(String gameId, PlayerAction playerAction);
+    void registerPlayerAction(String gameId, PlayerAction playerAction);
     void checkIfGameCompleted(String gameId);
 }

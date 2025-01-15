@@ -44,7 +44,12 @@ public class GameManagerImpl implements GameManager {
     }
 
     @Override
-    public void registerPlayerAction(Game game, PlayerAction playerAction) {
+    public boolean validatePlayerAction(String gameId, PlayerAction playerAction) {
+        return true;
+    }
+
+    @Override
+    public void registerPlayerAction(String gameId, PlayerAction playerAction) {
 
     }
 

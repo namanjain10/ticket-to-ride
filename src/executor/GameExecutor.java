@@ -6,8 +6,12 @@ import manager.PlayerManager;
 import models.Board;
 import models.Game;
 import models.Player;
+import models.action.AddTrainCarAction;
+import models.action.DrawCardsAction;
+import models.action.PlayerAction;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class GameExecutor {
 
@@ -30,9 +34,39 @@ public class GameExecutor {
         Game game = gameManager.getGame(gameId);
         while (game.isGameComplete()) {
             Board board = boardManager.getBoardForGame(game.getId());
+            System.out.println(board.getCityConnection());
+
             List<Player> playerList = playerManager.getPlayersForGame(game.getId());
-            // TODO: add userAction here
+            String nextChancePlayerId = game.getNextChance();
+
+            Scanner scanner = new Scanner(System.in);
+
+            PlayerAction playerAction = capturePlayerAction(scanner, gameId);
+
+            gameManager.registerPlayerAction(gameId, playerAction);
+
             gameManager.checkIfGameCompleted(gameId);
         }
+    }
+
+    private PlayerAction capturePlayerAction(Scanner scanner, String gameId) {
+        System.out.println("Choose Action: Enter 1 for picking Cards or 2 for placing train Car");
+        PlayerAction playerAction;
+        int actionInt = scanner.nextInt();
+        switch (actionInt) {
+            case 0:
+                playerAction = new DrawCardsAction();
+                break;
+            case 1:
+                playerAction = new AddTrainCarAction();
+                break;
+            default:
+                return capturePlayerAction(scanner, gameId);
+        }
+        if (!gameManager.validatePlayerAction(gameId, playerAction)) {
+            System.out.println("Action performed by the user is not valid!! Please enter correct action inputs");
+            return capturePlayerAction(scanner, gameId);
+        }
+        return playerAction;
     }
 }

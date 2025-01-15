@@ -8,7 +8,7 @@ public class Game {
     private Stack<Card> cardsDeck;
     private Stack<Card> returnedCards;
     private List<Card> openCards;
-    private Player nextChance;
+    private String nextChance;
     private boolean isGameComplete = false;
 
     public Game(String id, Stack<Card> cardsDeck, Stack<Card> returnedCards) {
@@ -33,11 +33,11 @@ public class Game {
         return openCards;
     }
 
-    public Player getNextChance() {
+    public String getNextChance() {
         return nextChance;
     }
 
-    public void setNextChance(Player nextChance) {
+    public void setNextChance(String nextChance) {
         this.nextChance = nextChance;
     }
 

@@ -1,3 +1,4 @@
+import executor.GameExecutor;
 import manager.BoardManager;
 import manager.GameManager;
 import manager.PlayerManager;
@@ -23,7 +24,7 @@ public class Main {
         PlayerManager playerManager = new PlayerManagerImpl(playerRepository);
         GameManager gameManager = new GameManagerImpl(boardManager, playerManager, gameRepository);
 
-
-
+        GameExecutor gameExecutor = new GameExecutor(boardManager, gameManager, playerManager);
+        gameExecutor.startNewGame();
     }
 }
