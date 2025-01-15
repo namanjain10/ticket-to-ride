@@ -1,5 +1,7 @@
 package manager.impl;
 
+import exception.CitiesNotConnectedException;
+import exception.ConnectionAlreadyOccupiedException;
 import graph.Graph;
 import graph.GraphAdjacencyListImpl;
 import manager.BoardManager;
@@ -33,13 +35,34 @@ public class BoardManagerImpl implements BoardManager {
         return board;
     }
 
-    @Override
-    public void addTrainCarConnection(Board board, City source, City destination, Player player) {
+    public Board get(String boardId) {
+        return boardRepository.get(boardId);
+    }
 
+    public Board getBoardForGame(String gameId) {
+        return boardRepository.getBoardForGame(gameId);
     }
 
     @Override
-    public boolean checkIfRouteIsComplete(Board board, City source, City destination) {
+    public void addTrainCarConnection(String boardId, City source, City destination, Player player) {
+        Board board = get(boardId);
+        Graph<City, Connection> cityConnectionGraph = board.getCityConnection();
+        Connection connectionEdge = cityConnectionGraph.isConnected(source, destination);
+        if (connectionEdge == null) {
+            connectionEdge = cityConnectionGraph.isConnected(destination, source);
+            if (connectionEdge == null) {
+                throw new CitiesNotConnectedException("Cities are not connected!!");
+            }
+        }
+        if (connectionEdge.isOccupied()) {
+            throw new ConnectionAlreadyOccupiedException("Cities connection already occupied by some other player!!");
+        }
+        connectionEdge.setOccupiedBy(player.getId());
+        boardRepository.update(boardId, board);
+    }
+
+    @Override
+    public boolean checkIfRouteIsComplete(String boardId, City source, City destination) {
         return false;
     }
 }

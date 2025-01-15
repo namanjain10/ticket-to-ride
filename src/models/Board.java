@@ -6,11 +6,11 @@ import java.util.UUID;
 
 public class Board {
 
-    private String id;
+    private final String id;
 
-    private String gameId;
+    private final String gameId;
 
-    private Graph<City, Connection> cityConnections;
+    private final Graph<City, Connection> cityConnections;
 
     public Board(String gameId, Graph<City, Connection> cityConnections) {
         this.id = UUID.randomUUID().toString();

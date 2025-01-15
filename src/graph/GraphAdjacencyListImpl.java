@@ -41,4 +41,15 @@ public class GraphAdjacencyListImpl<T, U> implements Graph<T, U> {
             System.out.println();
         }
     }
+
+    @Override
+    public U isConnected(T source, T destination) {
+        if (!vertices.contains(source) || !vertices.contains(destination)) {
+            throw new VertexNotFoundException("vertex not found!!");
+        }
+        Optional<WeightedEdge<T, U>> possibleEdge = adjacencyList.get(source).stream()
+                .filter(weightedEdge -> destination.equals(weightedEdge.getDestination()))
+                .findFirst();
+        return possibleEdge.map(WeightedEdge::getWeight).orElse(null);
+    }
 }

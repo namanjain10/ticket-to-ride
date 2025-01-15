@@ -5,6 +5,8 @@ public class Connection {
     private City to;
     private int size;
     private Color color;
+    private boolean isFree = true;
+    private String occupiedBy;
 
     public Connection(City from, City to, int size, Color color) {
         this.from = from;
@@ -27,5 +29,14 @@ public class Connection {
 
     public Color getColor() {
         return color;
+    }
+
+    public boolean isOccupied() {
+        return !this.isFree;
+    }
+
+    public void setOccupiedBy(String playerId) {
+        this.occupiedBy = playerId;
+        this.isFree = false;
     }
 }
