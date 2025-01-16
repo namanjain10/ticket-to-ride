@@ -4,13 +4,14 @@ import exception.DataGetException;
 import models.Board;
 import repositories.BoardRepository;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public class InMemoryBoardRepository implements BoardRepository {
 
-    private Map<String, Board> boardMap;
-    private Map<String, Board> gameVsBoardMap;
+    private final Map<String, Board> boardMap = new HashMap<>();
+    private final Map<String, Board> gameVsBoardMap = new HashMap<>();
 
     @Override
     public String save(Board board) {

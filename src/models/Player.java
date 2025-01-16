@@ -51,4 +51,18 @@ public class Player {
         this.trainCarCount = trainCarCount;
         this.sequenceId = sequenceId;
     }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", gameId='" + gameId + '\'' +
+                ", playerColor=" + playerColor +
+                ", tickets=" + tickets +
+                ", cards=" + cards +
+                ", trainCarCount=" + trainCarCount +
+                ", sequenceId=" + sequenceId +
+                '}';
+    }
 }

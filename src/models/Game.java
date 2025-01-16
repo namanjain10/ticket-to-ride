@@ -49,5 +49,14 @@ public class Game {
         isGameComplete = gameComplete;
     }
 
+    public void printOpenCards() {
+        if (openCards == null) {
+            System.out.println("No Cards Open Currently!!");
+            return;
+        }
+        for (int i=0; i<openCards.size(); i++) {
+            System.out.print(String.format("%d: %s  ", i, openCards.get(i)));
+        }
+    }
 // TODO: add builder here
 }

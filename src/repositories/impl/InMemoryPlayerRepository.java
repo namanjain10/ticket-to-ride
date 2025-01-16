@@ -5,15 +5,12 @@ import exception.DataSaveException;
 import models.Player;
 import repositories.PlayerRepository;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class InMemoryPlayerRepository implements PlayerRepository {
 
-    private Map<String, List<Player>> gameVsPlayerMap;
-    private Map<String, Player> playerMap;
+    private final Map<String, List<Player>> gameVsPlayerMap = new HashMap<>();
+    private final Map<String, Player> playerMap = new HashMap<>();
 
     @Override
     public String save(Player player) {
@@ -22,13 +19,14 @@ public class InMemoryPlayerRepository implements PlayerRepository {
         if (Objects.isNull(gameId)) {
             throw new DataSaveException("GameId should not be null!!");
         }
-        if (gameVsPlayerMap.containsKey(gameId)) {
-            gameVsPlayerMap.put(gameId, List.of(player));
+        List<Player> players;
+        if (!gameVsPlayerMap.containsKey(gameId)) {
+            players = new ArrayList<>();
         } else {
-            List<Player> players =  gameVsPlayerMap.get(gameId);
-            players.add(player);
-            gameVsPlayerMap.put(gameId, players);
+            players = gameVsPlayerMap.get(gameId);
         }
+        players.add(player);
+        gameVsPlayerMap.put(gameId, players);
         playerMap.put(playerId, player);
         return player.getId();
     }

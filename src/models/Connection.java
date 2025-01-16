@@ -1,10 +1,10 @@
 package models;
 
 public class Connection {
-    private City from;
-    private City to;
-    private int size;
-    private Color color;
+    private final City from;
+    private final City to;
+    private final int size;
+    private final Color color;
     private boolean isFree = true;
     private String occupiedBy;
 
@@ -38,5 +38,13 @@ public class Connection {
     public void setOccupiedBy(String playerId) {
         this.occupiedBy = playerId;
         this.isFree = false;
+    }
+
+    @Override
+    public String toString() {
+        if (this.isFree) {
+            return String.format("%s, %d, unoccupied)", this.color, this.size);
+        }
+        return String.format("%s, %d, occupiedBy: %s)", this.color, this.size, this.occupiedBy);
     }
 }

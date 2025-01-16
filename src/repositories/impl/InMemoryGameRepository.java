@@ -4,12 +4,13 @@ import exception.DataGetException;
 import models.Game;
 import repositories.GameRepository;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public class InMemoryGameRepository implements GameRepository {
 
-    private Map<String, Game> gameMap;
+    private Map<String, Game> gameMap = new HashMap<>();
 
     @Override
     public String save(Game game) {
