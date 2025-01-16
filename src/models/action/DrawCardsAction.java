@@ -1,6 +1,6 @@
 package models.action;
 
-import models.Card;
+import models.cards.Card;
 import models.Player;
 
 import java.util.List;

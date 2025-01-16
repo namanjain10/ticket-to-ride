@@ -4,7 +4,7 @@ import manager.BoardManager;
 import manager.GameManager;
 import manager.PlayerManager;
 import models.Board;
-import models.Card;
+import models.cards.Card;
 import models.Game;
 import models.Player;
 import models.action.PlayerAction;

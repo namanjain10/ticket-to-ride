@@ -1,8 +1,6 @@
 package utils;
 
-import models.Card;
-import org.junit.Assert;
-import org.junit.Test;
+import models.cards.Card;
 
 import java.util.Stack;
 

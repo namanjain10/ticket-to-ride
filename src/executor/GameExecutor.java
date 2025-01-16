@@ -8,6 +8,7 @@ import models.*;
 import models.action.AddTrainCarAction;
 import models.action.DrawCardsAction;
 import models.action.PlayerAction;
+import models.cards.Card;
 
 import java.util.ArrayList;
 import java.util.List;
