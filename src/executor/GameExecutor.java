@@ -2,6 +2,7 @@ package executor;
 
 import exception.CurrentPlayerNotFoundException;
 import manager.BoardManager;
+import manager.CardManager;
 import manager.GameManager;
 import manager.PlayerManager;
 import models.*;
@@ -13,17 +14,21 @@ import models.cards.Card;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class GameExecutor {
 
     private final BoardManager boardManager;
     private final GameManager gameManager;
+    private final CardManager cardManager;
     private final PlayerManager playerManager;
     private static final int MAX_CARDS_CAN_BE_PICKED = 2;
 
-    public GameExecutor(BoardManager boardManager, GameManager gameManager, PlayerManager playerManager) {
+    public GameExecutor(BoardManager boardManager, GameManager gameManager, CardManager cardManager,
+                        PlayerManager playerManager) {
         this.boardManager = boardManager;
         this.gameManager = gameManager;
+        this.cardManager = cardManager;
         this.playerManager = playerManager;
     }
 
@@ -42,21 +47,40 @@ public class GameExecutor {
             if (currentPlayer == null) {
                 throw new CurrentPlayerNotFoundException("current player with chance not found!!");
             }
-            printCurrentGameState(game, board, currentPlayer);
+            List<Card> openCards = cardManager.getOpenCardForGame(game.getId());
+            List<Card> playerCards = cardManager.getPlayerCards(game.getId(), currentPlayer.getId());
+            printCurrentGameState(game, board, currentPlayer, openCards, playerCards);
 
             Scanner scanner = new Scanner(System.in);
-            PlayerAction playerAction = capturePlayerAction(scanner, game, currentPlayer);
+            PlayerAction playerAction = capturePlayerAction(scanner, game, currentPlayer, openCards, playerCards);
             gameManager.registerPlayerAction(gameId, playerAction);
 
             gameManager.checkIfGameCompleted(gameId);
         }
     }
 
-    private void printCurrentGameState(Game game, Board board, Player currentPlayer) {
+    private void printCurrentGameState(Game game, Board board, Player currentPlayer, List<Card> openCards,
+                                       List<Card> playerCards) {
+        System.out.println();
+        System.out.println("Current Board : ");
         board.getCityConnection().print();
-        System.out.println("Current Open Cards");
-        game.printOpenCards();
+        System.out.println();
+        System.out.println("Current Open cards: ");
+        printCards(openCards);
         System.out.println("Next chance is for Player: " + currentPlayer.toString());
+        System.out.println("Show Cards for Player: ");
+        printCards(playerCards);
+    }
+
+    private void printCards(List<Card> cards) {
+        if (cards == null) {
+            return;
+        }
+        for (int i=0; i<cards.size(); i++) {
+            System.out.printf("%d: %s  ", i, cards.get(i));
+            System.out.println();
+        }
+        System.out.println();
     }
 
     private Player getPlayerWithCurrentChance(List<Player> playerList, Game game) {
@@ -74,24 +98,25 @@ public class GameExecutor {
         }
     }
 
-    private PlayerAction capturePlayerAction(Scanner scanner, Game game, Player currentPlayer) {
+    private PlayerAction capturePlayerAction(Scanner scanner, Game game, Player currentPlayer, List<Card> openCards,
+                                             List<Card> playerCards) {
         String gameId = game.getId();
         System.out.println("Choose Action: Enter 1 for picking Cards or 2 for placing train Car");
         PlayerAction playerAction;
         int actionInt = scanner.nextInt();
         switch (actionInt) {
             case 1:
-                playerAction = getDrawCardsAction(scanner, currentPlayer, game.getOpenCards());
+                playerAction = getDrawCardsAction(scanner, currentPlayer, openCards);
                 break;
             case 2:
-                playerAction = getAddTrainCarAction(scanner, currentPlayer);
+                playerAction = getAddTrainCarAction(scanner, currentPlayer, playerCards);
                 break;
             default:
-                return capturePlayerAction(scanner, game, currentPlayer);
+                return capturePlayerAction(scanner, game, currentPlayer, openCards, playerCards);
         }
         if (!gameManager.validatePlayerAction(gameId, playerAction)) {
             System.out.println("Action performed by the user is not valid!! Please enter correct action inputs");
-            return capturePlayerAction(scanner, game, currentPlayer);
+            return capturePlayerAction(scanner, game, currentPlayer, openCards, playerCards);
         }
         return playerAction;
     }
@@ -122,15 +147,29 @@ public class GameExecutor {
         return cardsSelected;
     }
 
-    private PlayerAction getAddTrainCarAction(Scanner scanner, Player currentPlayer) {
+    private PlayerAction getAddTrainCarAction(Scanner scanner, Player currentPlayer, List<Card> playerCards) {
         System.out.println("Source City: ");
         City sourceCity = takeCityInput(scanner);
 
         System.out.println("Destination City: ");
         City destinationCity = takeCityInput(scanner);
 
-        // TODO: add userCards submitted
-        return new AddTrainCarAction(currentPlayer, sourceCity, destinationCity, List.of());
+        return new AddTrainCarAction(currentPlayer, sourceCity, destinationCity,
+                getSubmittedCards(scanner, currentPlayer, playerCards));
+    }
+
+    private List<Card> getSubmittedCards(Scanner scanner, Player currentPlayer, List<Card> playerCards) {
+        System.out.println("Select number of cards you are submitting: ");
+        int cardsSubmitted = scanner.nextInt();
+        System.out.println("Select ids for card to be picked: ");
+        List<Integer> cardIds = new ArrayList<>();
+        List<Card> cards = new ArrayList<>();
+        for (int i=0; i<cardsSubmitted; i++) {
+            int cardId = takeCardIdInput(scanner, playerCards.size(), cardIds);
+            cardIds.add(cardId);
+            cards.add(playerCards.get(cardId));
+        }
+        return cards;
     }
 
     private City takeCityInput(Scanner scanner) {

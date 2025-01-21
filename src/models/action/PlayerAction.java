@@ -18,4 +18,6 @@ public abstract class PlayerAction {
     public Player getPlayer() {
         return player;
     }
+
+    public abstract <T> T accept(PlayerActionVisitor<T> visitor);
 }

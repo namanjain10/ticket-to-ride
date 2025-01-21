@@ -1,14 +1,18 @@
 import executor.GameExecutor;
 import manager.BoardManager;
+import manager.CardManager;
 import manager.GameManager;
 import manager.PlayerManager;
 import manager.impl.BoardManagerImpl;
+import manager.impl.CardManagerImpl;
 import manager.impl.GameManagerImpl;
 import manager.impl.PlayerManagerImpl;
 import repositories.BoardRepository;
+import repositories.CardsRepository;
 import repositories.GameRepository;
 import repositories.PlayerRepository;
 import repositories.impl.InMemoryBoardRepository;
+import repositories.impl.InMemoryCardsRepository;
 import repositories.impl.InMemoryGameRepository;
 import repositories.impl.InMemoryPlayerRepository;
 
@@ -19,12 +23,14 @@ public class Main {
         BoardRepository boardRepository = new InMemoryBoardRepository();
         PlayerRepository playerRepository = new InMemoryPlayerRepository();
         GameRepository gameRepository = new InMemoryGameRepository();
+        CardsRepository cardsRepository = new InMemoryCardsRepository();
 
         BoardManager boardManager = new BoardManagerImpl(boardRepository);
         PlayerManager playerManager = new PlayerManagerImpl(playerRepository);
-        GameManager gameManager = new GameManagerImpl(boardManager, playerManager, gameRepository);
+        CardManager cardManager = new CardManagerImpl(cardsRepository);
+        GameManager gameManager = new GameManagerImpl(boardManager, playerManager, cardManager, gameRepository);
 
-        GameExecutor gameExecutor = new GameExecutor(boardManager, gameManager, playerManager);
+        GameExecutor gameExecutor = new GameExecutor(boardManager, gameManager, cardManager, playerManager);
         gameExecutor.startNewGame();
     }
 }

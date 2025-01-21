@@ -30,9 +30,22 @@ public class Card {
         return playerId;
     }
 
+    public void setState(State state) {
+        this.state = state;
+    }
+
     public void passCardToPlayer(String playerId) {
         this.state = State.WITH_PLAYER;
         this.playerId = playerId;
+    }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "color=" + color +
+                ", state=" + state +
+                ", playerId='" + playerId + '\'' +
+                '}';
     }
 
     public enum State {

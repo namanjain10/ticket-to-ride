@@ -16,4 +16,9 @@ public class DrawCardsAction extends PlayerAction {
     public List<Card> getCardsToDraw() {
         return cardsToDraw;
     }
+
+    @Override
+    public <T> T accept(PlayerActionVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }

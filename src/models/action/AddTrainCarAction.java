@@ -30,4 +30,9 @@ public class AddTrainCarAction extends PlayerAction {
     public List<Card> getCardSubmitted() {
         return cardSubmitted;
     }
+
+    @Override
+    public <T> T accept(PlayerActionVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
 }
