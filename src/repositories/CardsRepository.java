@@ -11,6 +11,7 @@ public interface CardsRepository {
     void addCardsToPlayerFromDeck(String gameId, String playerId, int numCards);
     void addCardsFromDeckToOpenCards(String gameId, int numCards);
     void addCardsToPlayerFromOpenCards(String gameId, String playerId, List<Card> cards);
+    void addCardsToReturnedFromPlayerCards(String gameId, String playerId, List<Card> cards);
     List<Card> getCardsFromDeck(String gameId, int numCards);
     String save(Card card);
     Card get(String id);

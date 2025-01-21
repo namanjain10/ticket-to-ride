@@ -45,8 +45,8 @@ public class BoardManagerImpl implements BoardManager {
     }
 
     @Override
-    public void addTrainCarConnection(String boardId, City source, City destination, Player player) {
-        Board board = get(boardId);
+    public void addTrainCarConnection(String gameId, City source, City destination, Player player) {
+        Board board = getBoardForGame(gameId);
         Graph<City, Connection> cityConnectionGraph = board.getCityConnection();
         Connection connectionEdge = cityConnectionGraph.isConnected(source, destination);
         if (connectionEdge == null) {
@@ -59,7 +59,7 @@ public class BoardManagerImpl implements BoardManager {
             throw new ConnectionAlreadyOccupiedException("Cities connection already occupied by some other player!!");
         }
         connectionEdge.setOccupiedBy(player.getId());
-        boardRepository.update(boardId, board);
+        boardRepository.update(board.getId(), board);
     }
 
     @Override

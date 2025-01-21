@@ -80,6 +80,24 @@ public class InMemoryCardsRepository implements CardsRepository {
     }
 
     @Override
+    public void addCardsToReturnedFromPlayerCards(String gameId, String playerId, List<Card> cards) {
+        List<Card> returnedCards = getCards(gameId, Card.State.RETURNED);
+        List<Card> playerCards = getCards(gameId, Card.State.WITH_PLAYER);
+        if (returnedCards == null) {
+            returnedCards = new ArrayList<>();
+        }
+        for (Card card: cards) {
+            playerCards.remove(card);
+            card.setState(Card.State.RETURNED);
+            returnedCards.add(card);
+        }
+        gameVsStateVsCards.get(gameId)
+                .put(Card.State.WITH_PLAYER, playerCards);
+        gameVsStateVsCards.get(gameId)
+                .put(Card.State.RETURNED, returnedCards);
+    }
+
+    @Override
     public List<Card> getCardsFromDeck(String gameId, int numCards) {
         Stack<Card> cardsDeck = gameVsCardsStack.get(gameId);
         List<Card> resultantCards = new ArrayList<>();

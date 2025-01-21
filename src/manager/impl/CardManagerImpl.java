@@ -39,6 +39,11 @@ public class CardManagerImpl implements CardManager {
         cardsRepository.addCardsFromDeckToOpenCards(gameId, cards.size());
     }
 
+    @Override
+    public void addCardsToReturnedFromPlayerCards(String gameId, String playerId, List<Card> cards) {
+        cardsRepository.addCardsToReturnedFromPlayerCards(gameId, playerId, cards);
+    }
+
 //    @Override
 //    public List<Card> getCardsFromDeck(String gameId, int numCards) {
 //        return List.of();
