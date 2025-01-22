@@ -71,7 +71,8 @@ public class GameManagerImpl implements GameManager {
                     @Override
                     public Void visit(AddTrainCarAction addTrainCarAction) {
                         boardManager.addTrainCarConnection(gameId, addTrainCarAction.getSource(),
-                                addTrainCarAction.getDestination(), addTrainCarAction.getPlayer());
+                                addTrainCarAction.getDestination(), addTrainCarAction.getPlayer(),
+                                addTrainCarAction.getCardSubmitted());
                         cardManager.addCardsToReturnedFromPlayerCards(gameId,
                                 addTrainCarAction.getPlayer().getId(), addTrainCarAction.getCardSubmitted());
                         return null;

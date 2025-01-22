@@ -43,7 +43,7 @@ public class GraphAdjacencyListImpl<T, U> implements Graph<T, U> {
     }
 
     @Override
-    public U isConnected(T source, T destination) {
+    public U edgeExists(T source, T destination) {
         if (!vertices.contains(source) || !vertices.contains(destination)) {
             throw new VertexNotFoundException("vertex not found!!");
         }

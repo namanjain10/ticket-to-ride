@@ -1,3 +1,4 @@
+import executor.ActionRegistrant;
 import executor.GameExecutor;
 import manager.BoardManager;
 import manager.CardManager;
@@ -29,8 +30,10 @@ public class Main {
         PlayerManager playerManager = new PlayerManagerImpl(playerRepository);
         CardManager cardManager = new CardManagerImpl(cardsRepository);
         GameManager gameManager = new GameManagerImpl(boardManager, playerManager, cardManager, gameRepository);
+        ActionRegistrant actionRegistrant = new ActionRegistrant(gameManager);
 
-        GameExecutor gameExecutor = new GameExecutor(boardManager, gameManager, cardManager, playerManager);
+        GameExecutor gameExecutor = new GameExecutor(boardManager, gameManager, cardManager, playerManager,
+                actionRegistrant);
         gameExecutor.startNewGame();
     }
 }
