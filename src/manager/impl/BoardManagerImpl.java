@@ -2,7 +2,7 @@ package manager.impl;
 
 import exception.CitiesNotConnectedException;
 import exception.ConnectionAlreadyOccupiedException;
-import exception.InsuffcientConnectionCardsException;
+import exception.InsufficientConnectionCardsException;
 import graph.Graph;
 import graph.GraphAdjacencyListImpl;
 import manager.BoardManager;
@@ -74,7 +74,7 @@ public class BoardManagerImpl implements BoardManager {
                 .map(Card::getColor)
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
         if (cardsColor.get(edgeColor) != size) {
-            throw new InsuffcientConnectionCardsException("Not Sufficient cards with player to create connection!!");
+            throw new InsufficientConnectionCardsException("Not Sufficient cards with player to create connection!!");
         }
     }
 

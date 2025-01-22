@@ -86,4 +86,39 @@ public class GameManagerImpl implements GameManager {
 //        game.setGameComplete(true);
 //        gameRepository.update(gameId, game);
     }
+
+    @Override
+    public void passChanceToNextPlayer(String gameId, List<Player> playerList) {
+        Game game = getGame(gameId);
+        String currentPlayerId = game.getNextChance();
+        Player nextPlayer = null;
+        if (currentPlayerId == null) {
+            // setting player with id 1 as the next chance
+            nextPlayer = getPlayerWithSeqId(playerList, 1);
+        } else {
+            Player currentPlayer = playerList.stream()
+                    .filter(player -> currentPlayerId.equals(player.getId()))
+                    .findFirst()
+                    .orElse(null);
+            if (currentPlayer == null) {
+                return;
+            }
+            int seqId = currentPlayer.getSequenceId() + 1;
+            if (seqId >= playerList.size()) {
+                seqId = 0;
+            }
+            nextPlayer = getPlayerWithSeqId(playerList, seqId);
+        }
+        if (nextPlayer == null) {
+            return;
+        }
+        game.setNextChance(nextPlayer.getId());
+    }
+
+    private Player getPlayerWithSeqId(List<Player> playerList, int seqId) {
+        return playerList.stream()
+                .filter(player -> player.getSequenceId() == seqId)
+                .findFirst()
+                .orElse(null);
+    }
 }

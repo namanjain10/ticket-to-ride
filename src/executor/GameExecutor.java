@@ -46,9 +46,9 @@ public class GameExecutor {
             List<Card> openCards = cardManager.getOpenCardForGame(game.getId());
             List<Card> playerCards = cardManager.getPlayerCards(game.getId(), currentPlayer.getId());
             printCurrentGameState(game, board, currentPlayer, openCards, playerCards);
-
             executeUserAction(game, currentPlayer, openCards, playerCards);
             gameManager.checkIfGameCompleted(gameId);
+            gameManager.passChanceToNextPlayer(gameId, playerList);
         }
     }
 
