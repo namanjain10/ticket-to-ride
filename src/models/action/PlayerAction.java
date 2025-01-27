@@ -1,6 +1,6 @@
 package models.action;
 
-import models.Player;
+import models.player.Player;
 
 public abstract class PlayerAction {
     private final PlayerActionType playerActionType;

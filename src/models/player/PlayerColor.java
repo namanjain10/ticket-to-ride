@@ -1,4 +1,4 @@
-package models;
+package models.player;
 
 public enum PlayerColor {
     GREEN,

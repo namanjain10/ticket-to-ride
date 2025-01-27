@@ -1,6 +1,6 @@
 package repositories;
 
-import models.Player;
+import models.player.Player;
 
 import java.util.List;
 

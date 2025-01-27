@@ -2,7 +2,7 @@ package repositories.impl;
 
 import exception.DataGetException;
 import exception.DataSaveException;
-import models.Player;
+import models.player.Player;
 import repositories.PlayerRepository;
 
 import java.util.*;

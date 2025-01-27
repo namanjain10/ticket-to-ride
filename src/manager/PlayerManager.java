@@ -1,6 +1,6 @@
 package manager;
 
-import models.Player;
+import models.player.Player;
 import models.action.PlayerAction;
 
 import java.util.List;

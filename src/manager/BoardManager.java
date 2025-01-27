@@ -1,8 +1,8 @@
 package manager;
 
-import models.Board;
-import models.City;
-import models.Player;
+import models.board.Board;
+import models.board.City;
+import models.player.Player;
 import models.cards.Card;
 
 import java.util.List;

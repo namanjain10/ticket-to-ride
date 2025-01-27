@@ -1,7 +1,5 @@
 package models.cards;
 
-import models.Color;
-
 import java.util.UUID;
 
 public class Card {

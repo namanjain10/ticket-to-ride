@@ -6,8 +6,12 @@ import exception.InsufficientConnectionCardsException;
 import graph.Graph;
 import graph.GraphAdjacencyListImpl;
 import manager.BoardManager;
-import models.*;
+import models.board.Board;
+import models.board.City;
+import models.board.Connection;
 import models.cards.Card;
+import models.cards.Color;
+import models.player.Player;
 import repositories.BoardRepository;
 import utils.BoardUtil;
 

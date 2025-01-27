@@ -1,7 +1,7 @@
 package utils;
 
 import models.cards.Card;
-import models.Color;
+import models.cards.Color;
 
 import java.util.*;
 

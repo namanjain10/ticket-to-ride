@@ -1,7 +1,7 @@
 package models.action;
 
 import models.cards.Card;
-import models.Player;
+import models.player.Player;
 
 import java.util.List;
 

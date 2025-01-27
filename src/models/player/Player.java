@@ -1,5 +1,6 @@
-package models;
+package models.player;
 
+import models.Ticket;
 import models.cards.Card;
 
 import java.util.List;

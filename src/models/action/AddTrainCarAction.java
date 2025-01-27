@@ -1,8 +1,8 @@
 package models.action;
 
 import models.cards.Card;
-import models.City;
-import models.Player;
+import models.board.City;
+import models.player.Player;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package utils;
 
-import models.City;
-import models.Color;
-import models.Connection;
+import models.board.City;
+import models.cards.Color;
+import models.board.Connection;
 
 import java.util.List;
 

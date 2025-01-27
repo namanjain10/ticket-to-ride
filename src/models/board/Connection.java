@@ -1,4 +1,6 @@
-package models;
+package models.board;
+
+import models.cards.Color;
 
 public class Connection {
     private final City from;

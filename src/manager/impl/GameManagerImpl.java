@@ -1,10 +1,7 @@
 package manager.impl;
 
-import manager.BoardManager;
-import manager.CardManager;
-import manager.GameManager;
-import manager.PlayerManager;
-import models.Player;
+import manager.*;
+import models.player.Player;
 import models.action.*;
 import models.Game;
 import repositories.GameRepository;
@@ -17,15 +14,17 @@ public class GameManagerImpl implements GameManager {
     private final BoardManager boardManager;
     private final PlayerManager playerManager;
     private final CardManager cardManager;
+    private final TicketManager ticketManager;
     private final GameRepository gameRepository;
     private static final int NUM_CARDS_PER_PLAYER = 4;
     private static final int NUM_OPEN_CARDS = 4;
 
     public GameManagerImpl(BoardManager boardManager, PlayerManager playerManager, CardManager cardManager,
-                           GameRepository gameRepository) {
+                           TicketManager ticketManager, GameRepository gameRepository) {
         this.boardManager = boardManager;
         this.playerManager = playerManager;
         this.cardManager = cardManager;
+        this.ticketManager = ticketManager;
         this.gameRepository = gameRepository;
     }
 
@@ -34,16 +33,18 @@ public class GameManagerImpl implements GameManager {
         String gameId = UUID.randomUUID().toString();
         List<Player> players = playerManager.initPlayers(gameId, numPlayer);
         cardManager.initCardsDeck(gameId, numCards);
-        distributeCards(gameId, players);
+        ticketManager.initTickets(gameId);
+        distributeCardsAndTickets(gameId, players);
         boardManager.createBoard(gameId);
         Game game = new Game(gameId);
         gameRepository.save(game);
         return game;
     }
 
-    private void distributeCards(String gameId, List<Player> players) {
+    private void distributeCardsAndTickets(String gameId, List<Player> players) {
         for (Player player: players) {
             cardManager.addCardsToPlayerFromDeck(gameId, player.getId(), NUM_CARDS_PER_PLAYER);
+            ticketManager.addTicketToPlayerFromDeck(gameId, player.getId());
         }
         cardManager.addCardsToOpenCardsFromDeck(gameId, NUM_OPEN_CARDS);
     }

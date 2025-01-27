@@ -1,13 +1,12 @@
 package executor;
 
 import exception.CurrentPlayerNotFoundException;
-import manager.BoardManager;
-import manager.CardManager;
-import manager.GameManager;
-import manager.PlayerManager;
+import manager.*;
 import models.*;
 import models.action.PlayerAction;
+import models.board.Board;
 import models.cards.Card;
+import models.player.Player;
 
 import java.util.List;
 
@@ -17,14 +16,16 @@ public class GameExecutor {
     private final GameManager gameManager;
     private final CardManager cardManager;
     private final PlayerManager playerManager;
+    private final TicketManager ticketManager;
     private final ActionRegistrant actionRegistrant;
 
     public GameExecutor(BoardManager boardManager, GameManager gameManager, CardManager cardManager,
-                        PlayerManager playerManager, ActionRegistrant actionRegistrant) {
+                        PlayerManager playerManager, TicketManager ticketManager, ActionRegistrant actionRegistrant) {
         this.boardManager = boardManager;
         this.gameManager = gameManager;
         this.cardManager = cardManager;
         this.playerManager = playerManager;
+        this.ticketManager = ticketManager;
         this.actionRegistrant = actionRegistrant;
     }
 
@@ -43,9 +44,10 @@ public class GameExecutor {
             if (currentPlayer == null) {
                 throw new CurrentPlayerNotFoundException("current player with chance not found!!");
             }
-            List<Card> openCards = cardManager.getOpenCardForGame(game.getId());
-            List<Card> playerCards = cardManager.getPlayerCards(game.getId(), currentPlayer.getId());
-            printCurrentGameState(game, board, currentPlayer, openCards, playerCards);
+            List<Card> openCards = cardManager.getOpenCardForGame(gameId);
+            List<Card> playerCards = cardManager.getPlayerCards(gameId, currentPlayer.getId());
+            List<Ticket> playerTickets = ticketManager.playerTickets(gameId, currentPlayer.getId());
+            printCurrentGameState(game, board, currentPlayer, openCards, playerCards, playerTickets);
             executeUserAction(game, currentPlayer, openCards, playerCards);
             gameManager.checkIfGameCompleted(gameId);
             gameManager.passChanceToNextPlayer(gameId, playerList);
@@ -66,7 +68,7 @@ public class GameExecutor {
     }
 
     private void printCurrentGameState(Game game, Board board, Player currentPlayer, List<Card> openCards,
-                                       List<Card> playerCards) {
+                                       List<Card> playerCards, List<Ticket> playerTickets) {
         System.out.println();
         System.out.println("Current Board : ");
         board.getCityConnection().print();
@@ -76,6 +78,8 @@ public class GameExecutor {
         System.out.println("Next chance is for Player: " + currentPlayer.toString());
         System.out.println("Show Cards for Player: ");
         printCards(playerCards);
+        System.out.println("Player Tickets: ");
+        printTickets(playerTickets);
     }
 
     private void printCards(List<Card> cards) {
@@ -84,6 +88,17 @@ public class GameExecutor {
         }
         for (int i=0; i<cards.size(); i++) {
             System.out.printf("%d: %s  ", i, cards.get(i));
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    private void printTickets(List<Ticket> tickets) {
+        if (tickets == null) {
+            return;
+        }
+        for (Ticket ticket: tickets) {
+            System.out.printf(ticket.toString());
             System.out.println();
         }
         System.out.println();

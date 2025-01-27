@@ -1,4 +1,4 @@
-package models;
+package models.board;
 
 public enum City {
     PARIS,

@@ -1,7 +1,7 @@
 package repositories.impl;
 
 import exception.DataGetException;
-import models.Board;
+import models.board.Board;
 import repositories.BoardRepository;
 
 import java.util.HashMap;

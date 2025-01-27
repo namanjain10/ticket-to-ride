@@ -1,6 +1,6 @@
 package repositories;
 
-import models.Board;
+import models.board.Board;
 
 public interface BoardRepository {
     String save(Board board);

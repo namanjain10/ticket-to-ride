@@ -2,8 +2,8 @@ package manager.impl;
 
 import exception.PlayerCreationFailedException;
 import manager.PlayerManager;
-import models.Player;
-import models.PlayerColor;
+import models.player.Player;
+import models.player.PlayerColor;
 import models.action.PlayerAction;
 import repositories.PlayerRepository;
 

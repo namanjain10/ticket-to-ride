@@ -1,9 +1,9 @@
 package executor;
 
 import manager.GameManager;
-import models.City;
+import models.board.City;
 import models.Game;
-import models.Player;
+import models.player.Player;
 import models.action.AddTrainCarAction;
 import models.action.DrawCardsAction;
 import models.action.PlayerAction;
